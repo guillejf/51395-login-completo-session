@@ -49,8 +49,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
 app.use('/api/sessions', loginRouter);
 
-app.use('/users', usersHtmlRouter);
-app.use('/test-chat', testSocketChatRouter);
+/* app.use('/users', usersHtmlRouter);
+app.use('/test-chat', testSocketChatRouter); */
 app.use('/', viewsRouter);
 
 app.get('*', (req, res) => {

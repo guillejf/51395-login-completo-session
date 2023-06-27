@@ -20,9 +20,14 @@ viewsRouter.get('/register', (req, res) => {
 });
 
 viewsRouter.get('/profile', checkUser, (req, res) => {
-  res.render('profile');
+  console.log(req.session);
+  res.render('profile', { data: JSON.stringify(req.session) });
 });
 
-viewsRouter.get('/solo-para-admin', checkAdmin, (req, res) => {
-  res.send('ESTO SOLO LO PUEDE VER EL ADMIN');
+viewsRouter.get('/admin', checkAdmin, (req, res) => {
+  res.render('admin');
+});
+
+viewsRouter.get('/', (req, res) => {
+  res.render('home');
 });
