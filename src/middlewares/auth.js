@@ -9,5 +9,5 @@ export function checkAdmin(req, res, next) {
   if (req.session?.email && req.session?.admin == true) {
     return next();
   }
-  return res.status(401).render('error-page', { msg: 'please log in AS ADMIN!' });
+  return res.status(403).render('error-page', { msg: 'please log in AS ADMIN!' });
 }

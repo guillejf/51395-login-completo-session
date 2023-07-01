@@ -7,7 +7,7 @@ export const loginRouter = express.Router();
 loginRouter.post('/register', async (req, res) => {
   const { firstName, lastName, age, email, password } = req.body;
   if (!firstName || !lastName || !age || !email || !password) {
-    return res.status(400).render('error-page', { msg: 'faltan datos' });
+    return res.status(400).render('error-page', { msg: 'faltan datos,por favor ingrese bien las cosas.' });
   }
   try {
     await UserModel.create({ firstName, lastName, age, email, password: createHash(password), admin: false });
@@ -22,11 +22,11 @@ loginRouter.post('/register', async (req, res) => {
 });
 
 loginRouter.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).render('error-page', { msg: 'faltan datos' });
-  }
   try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).render('error-page', { msg: 'faltan datos' });
+    }
     const foundUser = await UserModel.findOne({ email });
     if (foundUser && isValidPassword(password, foundUser.password) /* foundUser.password === password */) {
       req.session.firstName = foundUser.firstName;
@@ -34,7 +34,7 @@ loginRouter.post('/login', async (req, res) => {
       req.session.admin = foundUser.admin;
       return res.redirect('/profile');
     } else {
-      return res.status(400).render('error-page', { msg: 'email o pass incorrectos' });
+      return res.status(401).render('error-page', { msg: 'email o pass incorrectos' });
     }
   } catch (e) {
     console.log(e);
